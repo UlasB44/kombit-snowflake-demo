@@ -10,6 +10,12 @@ Multi-tenant data platform for Danish municipalities showcasing Snowflake govern
 - Manual masking policies applied to columns
 - RLS for municipality-based data isolation
 
+### Pattern B: Top-Down Distribution
+- 1 central database with RAW → STAGING → municipality schemas
+- Data lands centrally, then Dynamic Tables distribute to municipality schemas
+- Each municipality gets its own schema with filtered data
+- Same governance as Pattern A
+
 ### Pattern C: dbt-driven Transformations  
 - Central database with RAW → STAGING → MARTS flow
 - 5 separate dbt projects (one per municipality)
