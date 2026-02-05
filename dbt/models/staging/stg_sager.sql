@@ -1,0 +1,18 @@
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'SAGER') }}
+)
+
+SELECT
+    SAG_ID,
+    SAGSNUMMER,
+    CITIZEN_ID,
+    CPR_NUMMER,
+    SAG_TYPE,
+    SAG_STATUS,
+    OPRETTET_DATO,
+    AFSLUTTET_DATO,
+    SAGSBEHANDLER,
+    KOMMUNE_ID,
+    BESKRIVELSE,
+    CREATED_AT
+FROM source

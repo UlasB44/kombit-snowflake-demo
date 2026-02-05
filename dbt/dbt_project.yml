@@ -1,0 +1,38 @@
+name: 'kombit_dbt'
+version: '1.0.0'
+config-version: 2
+
+profile: 'kombit'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  kombit_dbt:
+    staging:
+      +schema: STAGING
+      +materialized: view
+    marts:
+      copenhagen:
+        +schema: COPENHAGEN
+        +materialized: table
+      aarhus:
+        +schema: AARHUS
+        +materialized: table
+      odense:
+        +schema: ODENSE
+        +materialized: table
+      aalborg:
+        +schema: AALBORG
+        +materialized: table
+      esbjerg:
+        +schema: ESBJERG
+        +materialized: table

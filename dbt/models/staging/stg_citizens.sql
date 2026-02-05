@@ -1,0 +1,21 @@
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'CITIZENS') }}
+)
+
+SELECT
+    CITIZEN_ID,
+    CPR_NUMMER,
+    FORNAVN,
+    EFTERNAVN,
+    FULDE_NAVN,
+    FOEDSELSDATO,
+    KOEN,
+    ADRESSE,
+    POSTNUMMER,
+    BY_NAVN,
+    KOMMUNE_ID,
+    TELEFON,
+    EMAIL,
+    CREATED_AT,
+    UPDATED_AT
+FROM source

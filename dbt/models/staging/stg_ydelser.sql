@@ -1,0 +1,18 @@
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'YDELSER') }}
+)
+
+SELECT
+    YDELSE_ID,
+    YDELSESNUMMER,
+    CITIZEN_ID,
+    CPR_NUMMER,
+    YDELSE_TYPE,
+    BELOEB,
+    UDBETALING_DATO,
+    PERIODE_START,
+    PERIODE_SLUT,
+    STATUS,
+    KOMMUNE_ID,
+    CREATED_AT
+FROM source

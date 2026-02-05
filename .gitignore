@@ -1,0 +1,26 @@
+# Ignore secrets
+*.env
+.env*
+profiles.yml
+!profiles.yml.example
+
+# dbt artifacts
+target/
+dbt_packages/
+logs/
+dbt_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

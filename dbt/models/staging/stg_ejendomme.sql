@@ -1,0 +1,17 @@
+WITH source AS (
+    SELECT * FROM {{ source('raw', 'EJENDOMME') }}
+)
+
+SELECT
+    EJENDOM_ID,
+    MATRIKELNUMMER,
+    EJER_CPR,
+    ADRESSE,
+    POSTNUMMER,
+    BY_NAVN,
+    EJENDOMSTYPE,
+    VURDERING,
+    AREAL_M2,
+    KOMMUNE_ID,
+    CREATED_AT
+FROM source
