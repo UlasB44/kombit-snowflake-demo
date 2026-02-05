@@ -1,4 +1,4 @@
-name: 'kombit_dbt'
+name: 'kombit_kommune'
 version: '1.0.0'
 config-version: 2
 
@@ -16,23 +16,26 @@ clean-targets:
   - "dbt_packages"
 
 models:
-  kombit_dbt:
+  kombit_kommune:
     staging:
-      +schema: STAGING
       +materialized: view
+      +schema: STAGING
     marts:
       copenhagen:
+        +materialized: table
         +schema: COPENHAGEN
-        +materialized: table
       aarhus:
+        +materialized: table
         +schema: AARHUS
-        +materialized: table
       odense:
+        +materialized: table
         +schema: ODENSE
-        +materialized: table
       aalborg:
+        +materialized: table
         +schema: AALBORG
-        +materialized: table
       esbjerg:
-        +schema: ESBJERG
         +materialized: table
+        +schema: ESBJERG
+      analytics:
+        +materialized: table
+        +schema: ANALYTICS

@@ -4,18 +4,12 @@ sources:
   - name: raw
     database: KOMBIT_C_DBT
     schema: RAW
-    description: "Raw data landing zone for all municipalities"
     tables:
-      - name: CITIZENS
-        description: "Citizen registry with CPR numbers"
-        columns:
-          - name: CPR_NUMMER
-            description: "Danish CPR number (PII)"
-          - name: KOMMUNE_ID
-            description: "Municipality identifier"
-      - name: SAGER
-        description: "Municipal cases and applications"
-      - name: YDELSER
-        description: "Social benefits and payments"
-      - name: EJENDOMME
-        description: "Property registry"
+      - name: citizens
+        description: Raw citizen data from Danish municipalities
+      - name: sager
+        description: Raw case data (welfare, social services)
+      - name: ydelser
+        description: Raw benefits/services data
+      - name: ejendomme
+        description: Raw property data
