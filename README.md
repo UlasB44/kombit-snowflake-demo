@@ -7,13 +7,41 @@ Multi-tenant data platform for Danish municipalities showcasing Snowflake govern
 ### Pattern A: Bottom-Up Aggregation
 - 5 separate municipality databases → 1 aggregated database
 - Dynamic Tables aggregate data in real-time
-- RLS and masking applied to aggregated views
+- Manual masking policies applied to columns
+- RLS for municipality-based data isolation
 
 ### Pattern C: dbt-driven Transformations  
 - Central database with RAW → STAGING → MARTS flow
 - 5 separate dbt projects (one per municipality)
 - Real transformations: data cleansing, computed columns, enrichment
 - Municipality-specific mart tables with analytics
+
+### Pattern D: Auto-Classification (Experimental)
+- Same structure as Pattern A
+- Uses Snowflake's native Sensitive Data Classification feature
+- Classification profile with auto_tag enabled
+- Tag-based masking policies
+
+#### Auto-Classification Limitations
+
+**Snowflake's auto-classification is heavily biased toward English column names and US/international data formats.**
+
+| Column | Danish Name | Detected? | Reason |
+|--------|-------------|-----------|--------|
+| CPR_NUMMER | CPR_NUMMER | ✅ YES | DK_PERSONAL_IDENTIFICATION_NUMBER is explicitly built-in |
+| EMAIL | EMAIL | ✅ YES | Email format is universal |
+| FORNAVN | FORNAVN | ❌ NO | Danish column name (needs FIRST_NAME) |
+| EFTERNAVN | EFTERNAVN | ❌ NO | Danish column name (needs LAST_NAME) |
+| TELEFON | TELEFON | ❌ NO | Danish column name + Danish format (+45 XXXXXXXX) |
+| ADRESSE | ADRESSE | ❌ NO | Danish column name + Danish address format |
+| POSTNUMMER | POSTNUMMER | ❌ NO | Danish column name + Danish postal code format |
+| FOEDSELSDATO | FOEDSELSDATO | ❌ NO | Danish column name (needs DATE_OF_BIRTH) |
+| KOEN | KOEN | ❌ NO | Danish column name (needs GENDER) |
+
+**For non-English data, you must either:**
+1. Use English column names (FIRST_NAME, PHONE_NUMBER, etc.)
+2. Create custom classifiers for your specific formats
+3. Use manual masking policies (like Pattern A)
 
 ## Quick Start
 
