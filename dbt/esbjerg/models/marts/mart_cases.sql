@@ -1,0 +1,28 @@
+WITH cases AS (
+    SELECT * FROM {{ ref('stg_sager') }}
+),
+citizens AS (
+    SELECT CITIZEN_ID, FULDE_NAVN, ALDERSGRUPPE FROM {{ ref('stg_citizens') }}
+)
+SELECT
+    s.SAG_ID,
+    s.SAGSNUMMER,
+    s.KOMMUNE_ID,
+    s.CITIZEN_ID,
+    c.FULDE_NAVN AS BORGER_NAVN,
+    c.ALDERSGRUPPE,
+    s.SAG_TYPE,
+    s.STATUS,
+    s.ER_AKTIV,
+    s.OPRETTET_DATO,
+    s.AFSLUTTET_DATO,
+    s.VARIGHED_DAGE,
+    CASE 
+        WHEN s.VARIGHED_DAGE <= 30 THEN 'OVERHOLDT'
+        WHEN s.VARIGHED_DAGE <= 45 THEN 'ADVARSEL'
+        ELSE 'OVERSKREDET'
+    END AS SLA_STATUS,
+    s.SAGSBEHANDLER,
+    CURRENT_TIMESTAMP() AS OPDATERET
+FROM cases s
+LEFT JOIN citizens c ON s.CITIZEN_ID = c.CITIZEN_ID

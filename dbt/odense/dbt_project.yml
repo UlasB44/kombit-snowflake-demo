@@ -1,0 +1,16 @@
+name: 'kombit_odense'
+version: '1.0.0'
+config-version: 2
+profile: 'kombit'
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+
+models:
+  kombit_odense:
+    staging:
+      +materialized: view
+      +schema: STAGING
+    marts:
+      +materialized: table
+      +schema: ODENSE

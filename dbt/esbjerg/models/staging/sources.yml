@@ -1,0 +1,10 @@
+version: 2
+sources:
+  - name: raw
+    database: KOMBIT_C_DBT
+    schema: RAW
+    tables:
+      - name: citizens
+      - name: sager
+      - name: ydelser
+      - name: ejendomme

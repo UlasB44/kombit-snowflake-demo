@@ -1,0 +1,12 @@
+kombit:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: SFSEEUROPE-ULAS_AWS_US_WEST_2
+      user: ULAS
+      role: SYSADMIN
+      warehouse: COMPUTE_WH
+      database: KOMBIT_C_DBT
+      schema: RAW
+      threads: 4

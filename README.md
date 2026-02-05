@@ -11,6 +11,7 @@ Multi-tenant data platform for Danish municipalities showcasing Snowflake govern
 
 ### Pattern C: dbt-driven Transformations  
 - Central database with RAW → STAGING → MARTS flow
+- 5 separate dbt projects (one per municipality)
 - Real transformations: data cleansing, computed columns, enrichment
 - Municipality-specific mart tables with analytics
 
@@ -32,7 +33,9 @@ Multi-tenant data platform for Danish municipalities showcasing Snowflake govern
 -- Run: sql/04_sample_data.sql
 ```
 
-### 2. Deploy and Run dbt Project
+### 2. Deploy and Run dbt Projects
+
+5 separate dbt projects for each municipality:
 
 ```bash
 # Add connection to ~/.snowflake/connections.toml
@@ -46,14 +49,37 @@ schema = "RAW"
 warehouse = "COMPUTE_WH"
 role = "SYSADMIN"
 
-# Deploy dbt project
-cd dbt
-snow dbt deploy kombit_dbt_demo -c KOMBIT_DBT --force
+# Deploy each municipality project
+cd dbt/copenhagen && snow dbt deploy kombit_copenhagen -c KOMBIT_DBT --force
+cd ../aarhus && snow dbt deploy kombit_aarhus -c KOMBIT_DBT --force
+cd ../odense && snow dbt deploy kombit_odense -c KOMBIT_DBT --force
+cd ../aalborg && snow dbt deploy kombit_aalborg -c KOMBIT_DBT --force
+cd ../esbjerg && snow dbt deploy kombit_esbjerg -c KOMBIT_DBT --force
 
-# Execute dbt on Snowflake
-# Run this SQL in Snowflake:
-EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_DBT_DEMO ARGS = 'run'
+# Execute each dbt project on Snowflake:
+EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_COPENHAGEN ARGS = 'run';
+EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_AARHUS ARGS = 'run';
+EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_ODENSE ARGS = 'run';
+EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_AALBORG ARGS = 'run';
+EXECUTE DBT PROJECT KOMBIT_C_DBT.RAW.KOMBIT_ESBJERG ARGS = 'run';
 ```
+
+## dbt Project Structure
+
+Each municipality has its own dbt project:
+
+```
+dbt/
+├── copenhagen/    # KOMBIT_COPENHAGEN project → COPENHAGEN schema
+├── aarhus/        # KOMBIT_AARHUS project → AARHUS schema
+├── odense/        # KOMBIT_ODENSE project → ODENSE schema
+├── aalborg/       # KOMBIT_AALBORG project → AALBORG schema
+└── esbjerg/       # KOMBIT_ESBJERG project → ESBJERG schema
+```
+
+Each project contains:
+- `models/staging/` - 4 staging views (stg_citizens, stg_sager, stg_ydelser, stg_ejendomme)
+- `models/marts/` - 4 mart tables (mart_citizens, mart_cases, mart_benefits, mart_analytics)
 
 ## Roles & Access
 
